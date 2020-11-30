@@ -35,7 +35,9 @@
         Cull Back
         LOD 300
         ZWrite On
-        Blend SrcAlpha OneMinusSrcAlpha
+       // Blend SrcAlpha Zero
+       //Blend OneMinusDstColor One
+        Blend SrcAlpha OneMinusSrcAlpha 
         
         SubShader
         {

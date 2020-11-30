@@ -73,6 +73,8 @@ float _BlendSpeed;
 sampler2D _MainTex;
 half4 _MainTex_ST;
 sampler2D _FurTex;
+sampler2D _StencilTex;
+sampler2D _MaskTex;
 half4 _FurTex_ST;
 sampler2D _BubbleTex;
 sampler2D _FlowMap;
@@ -244,9 +246,18 @@ fixed4 frag_base(v2f i): SV_Target
 
     fixed3 color = ambient + diffuse + specular;
     fixed3 noise = tex2D(_FurTex, i.uv.zw  * _FurThinness ).rgb  * smoothstep(color,0,_Smooth ) ;
-    fixed alpha = clamp(noise  - (FURSTEP * FURSTEP  ) * _FurDensity , 0, 6) * smoothstep(noise,0,_Smooth) ;
-    //color.rgb = i.worldNormal*0.5+0.5;
+    fixed3 noise2 = tex2D(_MaskTex, i.uv.zw  * _FurThinness ).rgb  * smoothstep(color,0,_Smooth ) ;
 
+   fixed3 noise3 = tex2D(_StencilTex, i.uv.zw   ).rgb ;// * smoothstep(color,0,_Smooth ) ;
+
+   
+    float value  = (1-noise2);
+    float value2  = (1 - noise3);
+    noise *= (value2 - value);
+    //if(value2 <0) noise = 0;
+    fixed alpha = clamp(noise   - (FURSTEP * FURSTEP  ) * _FurDensity , 0, 6) * smoothstep(noise,0,_Smooth) ;
+    // alpha *= value2;
+    //color.rgb = i.worldNormal*0.5+0.5;
     // _furOutput = fixed4(color,alpha);
     return fixed4(color,alpha );
 }

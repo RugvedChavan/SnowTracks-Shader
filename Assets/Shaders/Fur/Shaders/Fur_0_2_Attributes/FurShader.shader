@@ -10,6 +10,8 @@
         
         _MainTex ("Texture", 2D) = "white" { }
         _FurTex ("Fur Pattern", 2D) = "white" { }
+        _MaskTex ("Mask Tex", 2D) = "white" { }
+        _StencilTex ("Stencil Tex", 2D) = "white" { }
         _BubbleTex ("Bubble Pattern", 2D) = "white" { }
         _NormalMap("NormalMap",2D) = "bump"{}
         _Displacement ("displacement", 2D) = "white" { }
