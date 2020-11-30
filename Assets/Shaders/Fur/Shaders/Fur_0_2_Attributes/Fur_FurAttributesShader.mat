@@ -40,15 +40,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 91f1dfbc4bdcf4dab8e1e11bbc9bed54, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskTex:
-        m_Texture: {fileID: 2800000, guid: b0f862ada778b439ca86f571a0af595e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1943776b87a3c430cbeb6bd99d72dcb9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
         m_Texture: {fileID: 2800000, guid: bf116699b9b45144b9288c1cac5ad626, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _StencilTex:
+        m_Texture: {fileID: 2800000, guid: b0f862ada778b439ca86f571a0af595e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -56,8 +60,8 @@ Material:
     - _BubbleLength: 0
     - _FlowOffset: 0
     - _FlowStrength: 0.04
-    - _FurDensity: 2.75
-    - _FurLength: 0.78
+    - _FurDensity: 0.71
+    - _FurLength: 1.03
     - _FurShadeStep: 174
     - _FurShading: 0.25
     - _FurThinness: 1
