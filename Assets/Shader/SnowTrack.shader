@@ -2,10 +2,12 @@
 	Properties {
 	    _Tess ("Tessellation", Range(1,32)) = 4
 		_SnowColor ("Snow Color", Color) = (1,1,1,1)
+		_MaskColor ("Snow Color", Color) = (1,1,1,1)
 		_SnowTex ("Snow (RGB)", 2D) = "white" {}
 		_GroundColor ("Ground Color", Color) = (1,1,1,1)
 		_GroundTex ("Ground (RGB)", 2D) = "white" {}
 		_Splat ("Splat Map", 2D) = "black" {}
+		_Mask ("Splat Map", 2D) = "black" {}
 		_MainTex ("Albedo (RGB)", 2D) = "white" {}
         _Displacement ("Displacement", Range(0, 1.0)) = 0.3
 		_Glossiness ("Smoothness", Range(0,1)) = 0.5
@@ -51,9 +53,13 @@
 
 
 		sampler2D _GroundTex;
+
 		fixed4 _GroundColor;
 		sampler2D _SnowTex;
+		sampler2D _Mask;
+
 		fixed4 _SnowColor;
+		fixed4 _MaskColor;
 
 		struct Input {
 			float2 uv_GroundTex;
@@ -65,20 +71,21 @@
 		half _Metallic;
 		
 
-		// Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
-		// See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
-		// #pragma instancing_options assumeuniformscaling
 		UNITY_INSTANCING_BUFFER_START(Props)
 			// put more per-instance properties here
 		UNITY_INSTANCING_BUFFER_END(Props)
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
 			// Albedo comes from a texture tinted by color
-			half amount = tex2Dlod(_Splat, float4(IN.uv_Splat,0,0)).r; // take amount from splat image to lerp between color between snow and grouund
+			half amount = tex2Dlod(_Splat, float4(IN.uv_Splat,0,0)).r; 
+			half maskAmount = tex2Dlod(_Mask, float4(IN.uv_Splat,0,0)).r; 
+			fixed4 m = tex2D (_Mask, IN.uv_GroundTex) * _MaskColor;//, tex2D (_GroundTex, IN.uv_GroundTex) * _GroundColor, maskAmount);
 			fixed4 c = lerp(tex2D (_SnowTex, IN.uv_SnowTex) * _SnowColor, tex2D (_GroundTex, IN.uv_GroundTex) * _GroundColor, amount);
 
+			c*=m;
 			//fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _Color;
 			o.Albedo = c.rgb;
+
 			// Metallic and smoothness come from slider variables
 			o.Metallic = _Metallic;
 			o.Smoothness = _Glossiness;
