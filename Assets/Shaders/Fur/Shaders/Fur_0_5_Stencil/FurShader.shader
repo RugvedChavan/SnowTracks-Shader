@@ -1,4 +1,4 @@
-﻿Shader "Fur/FurAttributesShader"
+﻿Shader "Fur/FurStencilShader"
 {
     Properties
     {

@@ -253,7 +253,7 @@ fixed4 frag_base(v2f i): SV_Target
    
     float value  = (1-noise2);
     float value2  = (1 - noise3);
-    noise *= (value2 + value);
+    noise *= (value2 - value);
    // noise *= value2;
     //if(value2 <0) noise = 0;
     fixed alpha = clamp(noise   - (FURSTEP * FURSTEP  ) * _FurDensity , 0, 6) * smoothstep(noise,0,_Smooth) ;
